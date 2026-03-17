@@ -8,14 +8,14 @@
 
 ---
 
-## 📌 The Problem
+## The Problem
 
 India's platform-based delivery workers are the backbone of our digital economy. Yet they are completely unprotected from income loss caused by external disruptions:
 
-- 🌧️ **No Weather Protection** — Heavy rain halts deliveries. Zero income, zero safety net.
-- 🚫 **No Curfew Coverage** — Unplanned lockdowns mean instant earnings loss.
-- 💸 **No Savings Buffer** — Gig workers live week-to-week with no financial cushion.
-- 📋 **No Insurance Access** — Traditional insurers ignore this informal workforce.
+-  **No Weather Protection** — Heavy rain halts deliveries. Zero income, zero safety net.
+-  **No Curfew Coverage** — Unplanned lockdowns mean instant earnings loss.
+-  **No Savings Buffer** — Gig workers live week-to-week with no financial cushion.
+-  **No Insurance Access** — Traditional insurers ignore this informal workforce.
 
 > **20–30% of monthly income** is lost during disruptions. India has **15 Million+ platform gig workers** — none of them have income disruption insurance.
 
@@ -39,11 +39,11 @@ Auto-payout to UPI in < 30 seconds ⚡
 ```
 
 **Key differentiators:**
-- ✅ Zero paperwork — fully automated
-- ✅ Instant UPI payout — no claim filing needed
-- ✅ AI fraud detection — keeps pool healthy
-- ✅ Only ₹20–60/week — affordable for every worker
-- ✅ சீட்டு community pool — workers' money, workers' protection
+-  Zero paperwork — fully automated
+-  Instant UPI payout — no claim filing needed
+-  AI fraud detection — keeps pool healthy
+-  Only ₹20–60/week — affordable for every worker
+-  சீட்டு community pool — workers' money, workers' protection
 
 ---
 
@@ -74,7 +74,7 @@ Auto-payout to UPI in < 30 seconds ⚡
 
 ---
 
-## 🔄 Application Workflow
+## Application Workflow
 
 ```
 01. Worker Onboarding
@@ -107,7 +107,7 @@ Auto-payout to UPI in < 30 seconds ⚡
 
 ---
 
-## 💰 Weekly Premium Model — சீட்டு Style
+## Weekly Premium Model — சீட்டு Style
 
 ### Formula
 ```
@@ -142,22 +142,22 @@ Premium = Weekly Earnings × Risk Rate (2–5%) × Platform Multiplier × Season
 
 ---
 
-## ⚡ Parametric Triggers — Zero-Touch Auto-Claim
+##  Parametric Triggers — Zero-Touch Auto-Claim
 
 | Trigger | Parameter | Data Source | Severity | Payout |
 |---------|-----------|-------------|----------|--------|
-| 🌧️ Heavy Rainfall | > 50mm in 24h | OpenMeteo API | High | 75% daily |
-| 🌡️ Extreme Heat | > 42°C temperature | IMD API | Medium | 50% daily |
-| 💨 High Wind Speed | > 35 km/h | OpenMeteo API | Medium | 50% daily |
-| 🌊 Flood Warning | Official IMD alert | IMD Alerts API | High | 75% daily |
-| 🚫 Govt Curfew | Movement restricted | GDELT News API | High | 75% daily |
-| ✊ Transport Strike | Delivery zones blocked | Local Auth API | Medium | 50% daily |
+|  Heavy Rainfall | > 50mm in 24h | OpenMeteo API | High | 75% daily |
+|  Extreme Heat | > 42°C temperature | IMD API | Medium | 50% daily |
+|  High Wind Speed | > 35 km/h | OpenMeteo API | Medium | 50% daily |
+|  Flood Warning | Official IMD alert | IMD Alerts API | High | 75% daily |
+|  Govt Curfew | Movement restricted | GDELT News API | High | 75% daily |
+|  Transport Strike | Delivery zones blocked | Local Auth API | Medium | 50% daily |
 
 > **All 6 triggers are FULLY AUTOMATED** — payout sent without worker filing any claim or making any phone call.
 
 ---
 
-## 🤖 AI / ML Integration Plan
+##  AI / ML Integration Plan
 
 ### 01. Dynamic Risk Profiling
 - 10+ years IMD weather data analyzed
@@ -184,7 +184,7 @@ Premium = Weekly Earnings × Risk Rate (2–5%) × Platform Multiplier × Season
 
 ---
 
-## 📊 Historical Data Analysis
+## Historical Data Analysis
 
 **Dataset:** Kaggle — Indian Rainfall & Weather Prediction Dataset
 **Link:** https://www.kaggle.com/datasets/ameydilipmorye/indian-rainfall-and-weather-data/data
@@ -216,28 +216,28 @@ risk_score = (
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
-🌧️ Weather APIs / External Data
+ Weather APIs / External Data
    (OpenMeteo, IMD, News APIs, Location Data)
           ↓
-⚙️ Data Processing Layer
+ Data Processing Layer
    (Cleaning, Filtering, Feature Extraction)
           ↓
-🤖 AI Risk Model
+ AI Risk Model
    (Risk Score Calculation using ML + Historical Data)
           ↓
-🧠 Decision Engine
+ Decision Engine
    (Threshold Check + Multi-Source Validation — Confidence ≥ 80%)
           ↓
-⚡ Auto Claim Trigger System
+ Auto Claim Trigger System
    (Zone-based Worker Identification)
           ↓
-🔐 Fraud Detection Engine
+ Fraud Detection Engine
    (Duplicate Check, GPS Validation, Activity Check)
           ↓
-💰 Instant UPI Payout System
+ Instant UPI Payout System
    (Auto-transfer within 30 seconds)
 ```
 
@@ -254,7 +254,7 @@ risk_score = (
 
 
 
-## 🔒 System Design & Security
+##  System Design & Security
 
 ### System Reliability
 - Multi-source APIs with backup support
@@ -268,7 +268,7 @@ risk_score = (
 
 ---
 
-## 📈 Market Opportunity
+## Market Opportunity
 
 | Metric | Data |
 |--------|------|
@@ -282,7 +282,7 @@ risk_score = (
 
 ---
 
-## 📁 Repository Structure(As we Planned to execute)
+##  Repository Structure(As we Planned to execute)
 
 ```
 gigshield/
