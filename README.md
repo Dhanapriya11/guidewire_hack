@@ -252,17 +252,7 @@ risk_score = (
 | **APIs** | OpenMeteo (weather), IMD India (alerts), GDELT (news/curfews), Razorpay mock UPI, Platform APIs (mock) |
 | **ML / Data** | Kaggle weather dataset, district_risk_profile.csv, Risk scoring model, Fraud detection rules, Pandas pipeline |
 
----
 
-## 📅 Development Plan
-
-| Phase | Deadline | Deliverables |
-|-------|----------|-------------|
-| **Phase 1** | Mar 20 | Idea + Risk Analysis + UI Prototype + README + 2-min video |
-| **Phase 2** | Apr 4 | Registration, Policies, Claims, Dynamic Pricing |
-| **Phase 3** | Apr 17 | Fraud Detection, Payouts, Analytics Dashboard, Final submission |
-
----
 
 ## 🔒 System Design & Security
 
@@ -292,7 +282,7 @@ risk_score = (
 
 ---
 
-## 📁 Repository Structure
+## 📁 Repository Structure(As we Planned to execute)
 
 ```
 gigshield/
@@ -312,25 +302,6 @@ gigshield/
 
 ---
 
-## 🚀 How to Run
-
-```bash
-# Step 1 — Generate risk data from Kaggle dataset
-cd ml/
-python analysis.py    # place indian_weather.xlsx here first
-
-# Step 2 — Start backend
-cd backend/
-pip install -r requirements.txt
-cp ../ml/district_risk_profile.csv .
-python app.py         # runs on http://localhost:5000
-
-# Step 3 — Open frontend
-open frontend/index.html   # works standalone in any browser
-```
-
----
-
 ## 🔗 Links
 - **Dataset:** https://www.kaggle.com/datasets/ameydilipmorye/indian-rainfall-and-weather-data/data
 
@@ -338,12 +309,12 @@ open frontend/index.html   # works standalone in any browser
 
 ## 👥 Team
 
-| Name | Role |
-|------|------|
-| Akilan B | Backend & ML |
-| Dhanapriya VA | Frontend & UI |
-| Dharshini S | Data Analysis |
-| Gandhiraj J | System Design |
+| Name |
+|------|
+| Akilan B | 
+| Dhanapriya VA | 
+| Dharshini S |
+| Gandhiraj J |
 
 ---
 
