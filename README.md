@@ -280,11 +280,10 @@ risk_score = (
 
 > "A small weekly premium from millions creates a large, sustainable protection ecosystem."
 
----
 
 ##  Repository Structure(As we Planned to execute)
 
-```
+
 gigshield/
 ├── README.md                    ← This file
 ├── backend/
@@ -298,16 +297,16 @@ gigshield/
 └── ml/
     ├── analysis.py              ← Run this first to generate risk profiles
     └── district_risk_profile.csv ← Output: district risk scores & premiums
-```
 
----
+
+
 
 ## 🔗 Links
 - **Dataset:** https://www.kaggle.com/datasets/ameydilipmorye/indian-rainfall-and-weather-data/data
 
 ---
 
-## 👥 Team
+##  Team
 
 | Name |
 |------|
