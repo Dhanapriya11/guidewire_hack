@@ -319,7 +319,7 @@ risk_score = (
 
 
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -344,7 +344,7 @@ risk_score = (
 
 ---
 
-## 📈 Market Opportunity
+## Market Opportunity
 
 | Metric | Data |
 |--------|------|
@@ -356,20 +356,6 @@ risk_score = (
 
 > "A small weekly premium from millions creates a large, sustainable protection ecosystem."
 
----
 
-
----
-
-## 👥 Team
-
-| Name | Role |
-|------|------|
-| Akilan B | Backend & ML |
-| Dhanapriya VA | Frontend & UI |
-| Dharshini S | Data Analysis |
-| Gandhiraj J | System Design |
-
----
 
 *Built for Guidewire DEVTrails 2026 | Phase 1 | GigShield Team*
