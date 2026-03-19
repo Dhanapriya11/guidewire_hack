@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GigShield – Gig Worker Income Protection</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & BASE ───────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --saffron:#FF6B00;--saffron-light:#FFF0E5;--saffron-dark:#CC4F00;
+  --teal:#007A6E;--teal-light:#E5F5F3;--teal-dark:#005549;
+  --gold:#F5A623;--gold-light:#FEF6E7;
+  --danger:#D32F2F;--danger-light:#FFEBEE;
+  --success:#2E7D32;--success-light:#E8F5E9;
+  --bg:#F7F4EE;--surface:#FFFFFF;--surface2:#FAF9F6;
+  --text:#1A1A1A;--text2:#555;--text3:#888;
+  --border:#E0DAD0;--radius:12px;--radius-sm:8px;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --font-head:'Baloo 2',sans-serif;--font-body:'Noto Sans',sans-serif;
+}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh}
+button{cursor:pointer;font-family:var(--font-body)}
+input,select{font-family:var(--font-body)}
+
+/* ── LAYOUT ─────────────────────────────────────────────────────────────────── */
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* ── HEADER ─────────────────────────────────────────────────────────────────── */
+.header{
+  background:linear-gradient(135deg,var(--saffron) 0%,#FF8C00 100%);
+  color:#fff;padding:0 24px;height:64px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 16px rgba(255,107,0,0.3)
+}
+.logo{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:-0.5px}
+.logo span{opacity:0.8}
+.nav{display:flex;gap:4px}
+.nav-btn{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  color:#fff;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;
+  transition:all 0.2s
+}
+.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,0.3)}
+
+/* ── MAIN ───────────────────────────────────────────────────────────────────── */
+.main{flex:1;padding:24px;max-width:1100px;margin:0 auto;width:100%}
+
+/* ── HERO ───────────────────────────────────────────────────────────────────── */
+.hero{
+  background:linear-gradient(135deg,#FFF8F0 0%,#FFF3E5 100%);
+  border:1px solid #FFDBB8;border-radius:20px;padding:40px;
+  display:flex;align-items:center;gap:32px;margin-bottom:28px;
+}
+.hero-text h1{font-family:var(--font-head);font-size:32px;font-weight:700;color:var(--saffron-dark);line-height:1.2}
+.hero-text p{color:var(--text2);margin-top:10px;font-size:15px;line-height:1.6}
+.hero-chit{
+  background:var(--surface);border:2px dashed var(--saffron);border-radius:16px;
+  padding:20px 28px;min-width:220px;text-align:center;flex-shrink:0
+}
+.hero-chit .label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.hero-chit .amount{font-family:var(--font-head);font-size:36px;font-weight:700;color:var(--saffron)}
+.hero-chit .sub{font-size:13px;color:var(--text2);margin-top:4px}
+
+/* ── CARDS ──────────────────────────────────────────────────────────────────── */
+.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:24px;box-shadow:var(--shadow)}
+.card-title{font-family:var(--font-head);font-size:18px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* ── FORM ───────────────────────────────────────────────────────────────────── */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:6px}
+.form-group input,.form-group select{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:14px;color:var(--text);background:var(--surface2);transition:border 0.2s
+}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--saffron)}
+
+/* ── BUTTONS ────────────────────────────────────────────────────────────────── */
+.btn-primary{
+  background:var(--saffron);color:#fff;border:none;padding:12px 24px;
+  border-radius:var(--radius-sm);font-size:15px;font-weight:600;
+  width:100%;transition:all 0.2s;font-family:var(--font-body)
+}
+.btn-primary:hover{background:var(--saffron-dark);transform:translateY(-1px)}
+.btn-secondary{
+  background:var(--surface2);color:var(--text);border:1px solid var(--border);
+  padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;transition:all 0.2s
+}
+.btn-secondary:hover{border-color:var(--saffron);color:var(--saffron)}
+.btn-teal{background:var(--teal);color:#fff;border:none;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;transition:all 0.2s}
+.btn-teal:hover{background:var(--teal-dark)}
+.btn-danger{background:var(--danger);color:#fff;border:none;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;transition:all 0.2s}
+
+/* ── METRIC CARDS ───────────────────────────────────────────────────────────── */
+.metric{background:var(--surface2);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border)}
+.metric .m-label{font-size:12px;color:var(--text3);margin-bottom:6px}
+.metric .m-value{font-family:var(--font-head);font-size:28px;font-weight:700}
+.metric .m-sub{font-size:12px;color:var(--text3);margin-top:4px}
+.metric.green .m-value{color:var(--success)}
+.metric.orange .m-value{color:var(--saffron)}
+.metric.teal .m-value{color:var(--teal)}
+.metric.red .m-value{color:var(--danger)}
+
+/* ── BADGES ─────────────────────────────────────────────────────────────────── */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.badge-high{background:#FFEBEE;color:#C62828}
+.badge-med{background:#FFF8E1;color:#F57F17}
+.badge-low{background:#E8F5E9;color:#2E7D32}
+.badge-active{background:#E3F2FD;color:#1565C0}
+.badge-success{background:var(--success-light);color:var(--success)}
+.badge-danger{background:var(--danger-light);color:var(--danger)}
+
+/* ── RISK METER ─────────────────────────────────────────────────────────────── */
+.risk-bar{background:#EEE;border-radius:99px;height:10px;margin-top:6px;overflow:hidden}
+.risk-fill{height:100%;border-radius:99px;transition:width 0.6s}
+.risk-fill.high{background:linear-gradient(90deg,#FF6B00,#D32F2F)}
+.risk-fill.medium{background:linear-gradient(90deg,#F5A623,#FF6B00)}
+.risk-fill.low{background:linear-gradient(90deg,#4CAF50,#007A6E)}
+
+/* ── TIMELINE / STEPS ───────────────────────────────────────────────────────── */
+.steps{display:flex;gap:0;margin-bottom:28px;position:relative}
+.steps::before{content:'';position:absolute;top:18px;left:18px;right:18px;height:2px;background:var(--border)}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative}
+.step-circle{
+  width:36px;height:36px;border-radius:50%;border:2px solid var(--border);
+  background:var(--surface);display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--text3);z-index:1;transition:all 0.3s
+}
+.step.active .step-circle{background:var(--saffron);border-color:var(--saffron);color:#fff}
+.step.done .step-circle{background:var(--teal);border-color:var(--teal);color:#fff}
+.step-label{font-size:12px;color:var(--text3);text-align:center;font-weight:500}
+.step.active .step-label{color:var(--saffron);font-weight:600}
+
+/* ── ALERT BOX ──────────────────────────────────────────────────────────────── */
+.alert{padding:14px 16px;border-radius:var(--radius-sm);font-size:14px;margin-top:16px;display:flex;gap:10px;align-items:flex-start}
+.alert-success{background:var(--success-light);border:1px solid #A5D6A7;color:var(--success)}
+.alert-danger{background:var(--danger-light);border:1px solid #FFCDD2;color:var(--danger)}
+.alert-info{background:#E3F2FD;border:1px solid #90CAF9;color:#1565C0}
+.alert-warning{background:var(--gold-light);border:1px solid #FFD54F;color:#E65100}
+
+/* ── POOL VISUALIZER ────────────────────────────────────────────────────────── */
+.pool-ring{position:relative;width:140px;height:140px;margin:0 auto 16px}
+.pool-svg{width:100%;height:100%}
+.pool-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.pool-label .big{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--teal)}
+.pool-label .small{font-size:11px;color:var(--text3)}
+
+/* ── CLAIM CARD ─────────────────────────────────────────────────────────────── */
+.claim-item{
+  border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;
+  margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2)
+}
+.claim-event{font-size:14px;font-weight:500}
+.claim-meta{font-size:12px;color:var(--text3);margin-top:2px}
+.claim-amount{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--success)}
+
+/* ── WORKER ID CARD ─────────────────────────────────────────────────────────── */
+.id-card{
+  background:linear-gradient(135deg,var(--saffron) 0%,#FF8C00 100%);
+  color:#fff;border-radius:16px;padding:24px;position:relative;overflow:hidden
+}
+.id-card::after{
+  content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;
+  background:rgba(255,255,255,0.1);border-radius:50%
+}
+.id-card .wid{font-family:var(--font-head);font-size:28px;font-weight:700;letter-spacing:2px}
+.id-card .wname{font-size:14px;opacity:0.85;margin-top:4px}
+.id-card .wprem{font-size:13px;opacity:0.75;margin-top:2px}
+
+/* ── DISRUPTION ALERT ───────────────────────────────────────────────────────── */
+.disruption-banner{
+  background:linear-gradient(135deg,#D32F2F,#B71C1C);color:#fff;
+  border-radius:16px;padding:24px;animation:pulse 2s infinite
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(211,47,47,0.4)}50%{box-shadow:0 0 0 12px rgba(211,47,47,0)}}
+.disruption-icon{font-size:40px;margin-bottom:12px}
+.disruption-type{font-family:var(--font-head);font-size:22px;font-weight:700}
+.disruption-desc{font-size:13px;opacity:0.85;margin-top:6px}
+
+/* ── LOADING SPINNER ────────────────────────────────────────────────────────── */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TABS ───────────────────────────────────────────────────────────────────── */
+.tabs{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:var(--radius-sm);margin-bottom:24px;border:1px solid var(--border)}
+.tab{flex:1;padding:9px;text-align:center;border-radius:6px;font-size:13px;font-weight:500;color:var(--text2);border:none;background:transparent;transition:all 0.2s}
+.tab.active{background:var(--surface);color:var(--saffron);box-shadow:0 1px 4px rgba(0,0,0,0.1);font-weight:600}
+
+/* ── TABLE ──────────────────────────────────────────────────────────────────── */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:10px 12px;background:var(--surface2);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--saffron-light)}
+
+/* ── SECTION HEADER ─────────────────────────────────────────────────────────── */
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-family:var(--font-head);font-size:20px;font-weight:700}
+
+/* ── CHIT FUND FLOW ─────────────────────────────────────────────────────────── */
+.chit-flow{display:flex;align-items:center;gap:12px;padding:16px;background:var(--teal-light);border-radius:var(--radius-sm);border:1px solid #B2DFDB;margin-top:16px}
+.chit-node{text-align:center;flex:1}
+.chit-node .icon{font-size:24px;margin-bottom:4px}
+.chit-node .label{font-size:12px;color:var(--teal-dark);font-weight:500}
+.chit-arrow{color:var(--teal);font-size:20px;flex-shrink:0}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media(max-width:700px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .hero{flex-direction:column}
+  .nav-btn span{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">🛡️ Gig<span>Shield</span></div>
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showPage('home')">🏠 <span>Home</span></button>
+      <button class="nav-btn" onclick="showPage('register')">📝 <span>Register</span></button>
+      <button class="nav-btn" onclick="showPage('dashboard')">📊 <span>Dashboard</span></button>
+      <button class="nav-btn" onclick="showPage('admin')">🔒 <span>Admin</span></button>
+    </nav>
+  </header>
+
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════════════════ HOME PAGE -->
+    <div id="page-home">
+      <div class="hero">
+        <div class="hero-text">
+          <h1>சிட்டி-style Income Protection for Delivery Workers 🤝</h1>
+          <p>GigShield is a community-powered parametric insurance platform. Like the traditional Tamil "Chitu" savings model — workers pool small weekly amounts, and when weather or disruptions strike, automatic payouts protect their income. No paperwork. No waiting.</p>
+          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn-primary" style="width:auto;padding:10px 24px" onclick="showPage('register')">Join GigShield →</button>
+            <button class="btn-secondary" onclick="showPage('dashboard')">View Demo Dashboard</button>
+          </div>
+        </div>
+        <div class="hero-chit">
+          <div class="label">Community Pool</div>
+          <div class="amount">₹<span id="pool-display">12,450</span></div>
+          <div class="sub">Active across 47 workers</div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title">🔄 How GigShield Works</div>
+        <div class="chit-flow">
+          <div class="chit-node"><div class="icon">🛵</div><div class="label">Worker earns weekly</div></div>
+          <div class="chit-arrow">→</div>
+          <div class="chit-node"><div class="icon">💰</div><div class="label">₹20–60 auto-deducted</div></div>
+          <div class="chit-arrow">→</div>
+          <div class="chit-node"><div class="icon">🏦</div><div class="label">Community pool grows</div></div>
+          <div class="chit-arrow">→</div>
+          <div class="chit-node"><div class="icon">🌧️</div><div class="label">Disruption detected</div></div>
+          <div class="chit-arrow">→</div>
+          <div class="chit-node"><div class="icon">⚡</div><div class="label">Auto-payout sent!</div></div>
+        </div>
+      </div>
+
+      <!-- Features grid -->
+      <div class="grid-3" style="margin-bottom:20px">
+        <div class="card">
+          <div class="card-title">🤖 AI Risk Profiling</div>
+          <p style="font-size:14px;color:var(--text2);line-height:1.6">Machine learning analyzes 10+ years of weather data to calculate your district's risk score and set your weekly premium dynamically.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ Zero-Touch Claims</div>
+          <p style="font-size:14px;color:var(--text2);line-height:1.6">When rainfall exceeds 50mm or temperature crosses 42°C in your zone, your payout is triggered automatically — no forms, no calls.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">🔍 Smart Fraud Shield</div>
+          <p style="font-size:14px;color:var(--text2);line-height:1.6">AI detects GPS spoofing, duplicate claims, and location mismatches to keep the community pool healthy for genuine workers.</p>
+        </div>
+      </div>
+
+      <!-- Risk zone table -->
+      <div class="card">
+        <div class="card-title">📍 Risk Zones & Weekly Premiums</div>
+        <table class="tbl">
+          <thead><tr><th>District</th><th>State</th><th>Risk Level</th><th>Risk Score</th><th>Weekly Premium</th><th>Daily Payout</th></tr></thead>
+          <tbody id="risk-table-body">
+            <tr><td>Satara</td><td>Maharashtra</td><td><span class="badge badge-high">High Risk</span></td><td>126</td><td>₹60</td><td>₹350</td></tr>
+            <tr><td>Pune</td><td>Maharashtra</td><td><span class="badge badge-high">High Risk</span></td><td>121</td><td>₹60</td><td>₹350</td></tr>
+            <tr><td>Nagapattinam</td><td>Tamil Nadu</td><td><span class="badge badge-high">High Risk</span></td><td>83</td><td>₹60</td><td>₹350</td></tr>
+            <tr><td>Chennai</td><td>Tamil Nadu</td><td><span class="badge badge-high">High Risk</span></td><td>75</td><td>₹60</td><td>₹300</td></tr>
+            <tr><td>Coimbatore</td><td>Tamil Nadu</td><td><span class="badge badge-med">Medium Risk</span></td><td>55</td><td>₹40</td><td>₹250</td></tr>
+            <tr><td>Pollachi</td><td>Tamil Nadu</td><td><span class="badge badge-low">Low Risk</span></td><td>35</td><td>₹20</td><td>₹200</td></tr>
+            <tr><td>Delhi</td><td>Delhi</td><td><span class="badge badge-med">Medium Risk</span></td><td>65</td><td>₹40</td><td>₹280</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ REGISTER PAGE -->
+    <div id="page-register" style="display:none">
+      <div class="section-head">
+        <div class="section-title">📝 Worker Registration</div>
+      </div>
+
+      <!-- Steps -->
+      <div class="steps">
+        <div class="step done" id="step1"><div class="step-circle">✓</div><div class="step-label">Details</div></div>
+        <div class="step active" id="step2"><div class="step-circle">2</div><div class="step-label">Risk Profile</div></div>
+        <div class="step" id="step3"><div class="step-circle">3</div><div class="step-label">Policy</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">👤 Personal Details</div>
+          <div class="form-group"><label>Full Name</label><input id="reg-name" type="text" placeholder="e.g. Rajan Kumar"/></div>
+          <div class="form-group"><label>Phone Number</label><input id="reg-phone" type="tel" placeholder="e.g. 9876543210"/></div>
+          <div class="form-group">
+            <label>Delivery Platform</label>
+            <select id="reg-platform">
+              <option value="Zomato">🍕 Zomato</option>
+              <option value="Swiggy">🛵 Swiggy</option>
+              <option value="Zepto">⚡ Zepto</option>
+              <option value="Blinkit">💚 Blinkit</option>
+              <option value="Amazon">📦 Amazon</option>
+              <option value="Flipkart">🛍️ Flipkart</option>
+              <option value="Dunzo">🚀 Dunzo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Vehicle Type</label>
+            <select id="reg-vehicle">
+              <option value="bicycle">🚲 Bicycle</option>
+              <option value="motorcycle">🏍️ Motorcycle</option>
+              <option value="scooter">🛵 Scooter</option>
+              <option value="auto">🛺 Auto</option>
+              <option value="car">🚗 Car</option>
+            </select>
+          </div>
+          <div class="form-group"><label>State</label>
+            <select id="reg-state">
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Delhi">Delhi</option>
+              <option value="West Bengal">West Bengal</option>
+              <option value="Gujarat">Gujarat</option>
+            </select>
+          </div>
+          <div class="form-group"><label>District</label>
+            <select id="reg-district">
+              <option value="Coimbatore">Coimbatore</option>
+              <option value="Pollachi">Pollachi</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Nagapattinam">Nagapattinam</option>
+              <option value="Madurai">Madurai</option>
+              <option value="Salem">Salem</option>
+              <option value="Trichy">Trichy</option>
+              <option value="Mumbai City">Mumbai City</option>
+              <option value="Pune">Pune</option>
+              <option value="Delhi">Delhi</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Average Weekly Earnings (₹)</label><input id="reg-earnings" type="number" placeholder="e.g. 3500" value="3500"/></div>
+          <button class="btn-primary" onclick="registerWorker()" id="reg-btn">🛡️ Calculate My Premium & Join</button>
+          <div id="reg-result"></div>
+        </div>
+
+        <!-- Right panel: info + result -->
+        <div>
+          <div class="card" style="margin-bottom:20px">
+            <div class="card-title">🧮 How Your Premium is Calculated</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.8">
+              <div>📊 <b>District Risk Score</b> — from 10+ years of weather data</div>
+              <div>🛵 <b>Platform Type</b> — food delivery = slightly higher risk</div>
+              <div>🌦️ <b>Current Season</b> — monsoon = 1.5x premium</div>
+              <div>💰 <b>Your Earnings</b> — premium = 2–5% of weekly earnings</div>
+              <div style="margin-top:12px;padding:12px;background:var(--saffron-light);border-radius:8px">
+                <b>Formula:</b> Premium = Earnings × Risk Rate × Platform × Season
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="premium-preview" style="display:none">
+            <div class="card-title">✅ Your GigShield Policy</div>
+            <div class="id-card" id="id-card-display"></div>
+            <div class="grid-2" style="margin-top:16px">
+              <div class="metric orange"><div class="m-label">Weekly Premium</div><div class="m-value" id="prev-premium">—</div><div class="m-sub">Auto-deducted</div></div>
+              <div class="metric green"><div class="m-label">Daily Payout</div><div class="m-value" id="prev-payout">—</div><div class="m-sub">On disruption</div></div>
+            </div>
+            <div id="prev-risk" style="margin-top:12px"></div>
+            <div class="chit-flow" style="margin-top:12px">
+              <div class="chit-node"><div class="icon">📱</div><div class="label">Auto-deduct from app</div></div>
+              <div class="chit-arrow">→</div>
+              <div class="chit-node"><div class="icon">🏦</div><div class="label">Community pool</div></div>
+              <div class="chit-arrow">→</div>
+              <div class="chit-node"><div class="icon">💸</div><div class="label">UPI payout</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ DASHBOARD PAGE -->
+    <div id="page-dashboard" style="display:none">
+      <div class="section-head">
+        <div class="section-title">📊 Worker Dashboard</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="lookup-id" placeholder="Worker ID e.g. A1B2C3D4" style="padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px"/>
+          <button class="btn-teal" onclick="loadWorkerDash()">Lookup</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('overview')">Overview</button>
+        <button class="tab" onclick="switchTab('claims')">Claims</button>
+        <button class="tab" onclick="switchTab('disruption')">Disruption Check</button>
+        <button class="tab" onclick="switchTab('pool')">Community Pool</button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div id="tab-overview">
+        <div id="worker-overview">
+          <div class="alert alert-info">ℹ️ Register a worker or enter a Worker ID to view their dashboard.</div>
+        </div>
+      </div>
+
+      <!-- Claims Tab -->
+      <div id="tab-claims" style="display:none">
+        <div class="card">
+          <div class="card-title">📋 Claims History</div>
+          <div id="claims-list"><div class="alert alert-info">ℹ️ No claims yet. Disruption triggers will appear here.</div></div>
+        </div>
+      </div>
+
+      <!-- Disruption Check Tab -->
+      <div id="tab-disruption" style="display:none">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🌦️ Real-Time Disruption Monitor</div>
+            <div class="form-group"><label>District</label>
+              <select id="dis-district">
+                <option value="Chennai">Chennai</option>
+                <option value="Nagapattinam">Nagapattinam</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Pollachi">Pollachi</option>
+                <option value="Pune">Pune</option>
+                <option value="Mumbai City">Mumbai City</option>
+                <option value="Delhi">Delhi</option>
+              </select>
+            </div>
+            <div class="form-group"><label>State</label>
+              <select id="dis-state">
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Delhi">Delhi</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="btn-primary" style="width:auto;flex:1" onclick="checkDisruption()">🔍 Check Now</button>
+              <button class="btn-teal" onclick="triggerAutoPayouts()">⚡ Auto-Trigger Payouts</button>
+            </div>
+            <div id="disruption-result" style="margin-top:16px"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">📡 Monitored Triggers</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:13px">🌧️ Heavy Rainfall &gt; 50mm</span><span class="badge badge-active">Live</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:13px">🌡️ Extreme Heat &gt; 42°C</span><span class="badge badge-active">Live</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:13px">💨 High Wind &gt; 35 km/h</span><span class="badge badge-active">Live</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:13px">🌊 Flood Warning (IMD)</span><span class="badge badge-active">Live</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:13px">🚫 Government Curfew</span><span class="badge badge-active">Live</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                <span style="font-size:13px">✊ Transport Strike</span><span class="badge badge-active">Live</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;font-size:12px;color:var(--text3)">Data sources: IMD API • OpenMeteo • GDELT News • Local Auth APIs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pool Tab -->
+      <div id="tab-pool" style="display:none">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏦 Community Pool Status</div>
+            <div class="pool-ring">
+              <svg class="pool-svg" viewBox="0 0 140 140">
+                <circle cx="70" cy="70" r="58" fill="none" stroke="#E0DAD0" stroke-width="12"/>
+                <circle id="pool-circle" cx="70" cy="70" r="58" fill="none" stroke="#007A6E" stroke-width="12"
+                  stroke-dasharray="364" stroke-dashoffset="91" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+              </svg>
+              <div class="pool-label"><div class="big" id="pool-pct">75%</div><div class="small">Pool Health</div></div>
+            </div>
+            <div class="grid-2">
+              <div class="metric teal"><div class="m-label">Pool Balance</div><div class="m-value" id="pool-bal">₹12,450</div></div>
+              <div class="metric green"><div class="m-label">Total Contributed</div><div class="m-value" id="pool-in">₹16,600</div></div>
+            </div>
+            <div class="grid-2" style="margin-top:12px">
+              <div class="metric red"><div class="m-label">Total Paid Out</div><div class="m-value" id="pool-out">₹4,150</div></div>
+              <div class="metric orange"><div class="m-label">Active Workers</div><div class="m-value" id="pool-workers">47</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">💰 Chit Pool — How Funds Flow</div>
+            <div style="font-size:13px;color:var(--text2);line-height:2">
+              <div>📥 <b>Weekly Inflow:</b> All workers' premiums auto-pooled</div>
+              <div>📤 <b>Outflow:</b> Triggered only by verified disruptions</div>
+              <div>🛡️ <b>Reserve Ratio:</b> Maintain 3x monthly expected payouts</div>
+              <div>🔄 <b>Rebalancing:</b> If pool drops below threshold, premiums auto-adjust</div>
+              <div>📊 <b>Surplus:</b> Rolled to next month's pool — never lost</div>
+            </div>
+            <div style="margin-top:16px;padding:14px;background:var(--teal-light);border-radius:8px;border:1px solid #B2DFDB">
+              <div style="font-size:13px;color:var(--teal-dark);font-weight:600">✅ Pool is Healthy</div>
+              <div style="font-size:12px;color:var(--teal-dark);margin-top:4px">Estimated coverage for next 18 disruption days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ ADMIN PAGE -->
+    <div id="page-admin" style="display:none">
+      <div class="section-head">
+        <div class="section-title">🔒 Admin — Insurer Dashboard</div>
+        <button class="btn-secondary" onclick="loadAdminData()">🔄 Refresh</button>
+      </div>
+
+      <!-- KPI row -->
+      <div class="grid-4" style="margin-bottom:20px">
+        <div class="metric orange"><div class="m-label">Total Workers</div><div class="m-value" id="adm-workers">0</div><div class="m-sub">Registered</div></div>
+        <div class="metric teal"><div class="m-label">Loss Ratio</div><div class="m-value" id="adm-ratio">0%</div><div class="m-sub">Payout / Premium</div></div>
+        <div class="metric green"><div class="m-label">Total Premiums</div><div class="m-value" id="adm-premium">₹0</div><div class="m-sub">Collected</div></div>
+        <div class="metric red"><div class="m-label">Total Payouts</div><div class="m-value" id="adm-payout">₹0</div><div class="m-sub">Disbursed</div></div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:20px">
+        <div class="card">
+          <div class="card-title">📍 High Risk Districts</div>
+          <div id="risk-district-list">
+            <table class="tbl">
+              <thead><tr><th>District</th><th>State</th><th>Risk Score</th><th>Risk Level</th></tr></thead>
+              <tbody>
+                <tr><td>Satara</td><td>Maharashtra</td><td>126</td><td><span class="badge badge-high">High</span></td></tr>
+                <tr><td>Pune</td><td>Maharashtra</td><td>121</td><td><span class="badge badge-high">High</span></td></tr>
+                <tr><td>Nagapattinam</td><td>Tamil Nadu</td><td>83</td><td><span class="badge badge-high">High</span></td></tr>
+                <tr><td>Chennai</td><td>Tamil Nadu</td><td>75</td><td><span class="badge badge-high">High</span></td></tr>
+                <tr><td>Delhi</td><td>Delhi</td><td>65</td><td><span class="badge badge-med">Medium</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔍 Fraud Detection Analytics</div>
+          <div class="grid-2" style="margin-bottom:14px">
+            <div class="metric orange"><div class="m-label">Analyzed</div><div class="m-value" id="fraud-total">0</div></div>
+            <div class="metric red"><div class="m-label">Flagged</div><div class="m-value" id="fraud-flagged">0</div></div>
+          </div>
+          <div style="font-size:13px;color:var(--text2);line-height:2">
+            <div>✅ Duplicate claim detection</div>
+            <div>✅ GPS location validation</div>
+            <div>✅ Claim velocity analysis</div>
+            <div>✅ Platform activity verification</div>
+            <div>✅ GPS spoofing detection</div>
+            <div>✅ Payout-to-premium ratio check</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulate full disruption event -->
+      <div class="card">
+        <div class="card-title">⚡ Simulate Disruption Event</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Trigger a test disruption to see the full automated pipeline: Detection → Fraud check → Payout processing.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn-primary" style="width:auto" onclick="simulateDisruption('Heavy Rainfall','Chennai','Tamil Nadu')">🌧️ Heavy Rain — Chennai</button>
+          <button class="btn-primary" style="width:auto" onclick="simulateDisruption('Extreme Heat','Delhi','Delhi')">🌡️ Extreme Heat — Delhi</button>
+          <button class="btn-primary" style="width:auto" onclick="simulateDisruption('Flood Warning','Nagapattinam','Tamil Nadu')">🌊 Flood — Nagapattinam</button>
+        </div>
+        <div id="sim-result" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const State = {
+  currentWorker: null,
+  workers: {},
+  pool: { balance: 12450, totalIn: 16600, totalOut: 4150 },
+  claims: [],
+  fraudStats: { total: 0, flagged: 0 }
+};
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function showPage(name) {
+  ['home','register','dashboard','admin'].forEach(p => {
+    document.getElementById('page-'+p).style.display = p===name ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['home','register','dashboard','admin'][i]===name);
+  });
+  if(name==='admin') loadAdminData();
+}
+
+function switchTab(name) {
+  ['overview','claims','disruption','pool'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===name ? '' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach((b,i) => {
+    b.classList.toggle('active', ['overview','claims','disruption','pool'][i]===name);
+  });
+}
+
+// ── RISK ENGINE (frontend simulation) ────────────────────────────────────────
+const RISK_DATA = {
+  'Nagapattinam': {score:83,level:'High Risk',premium:60},
+  'Chennai':      {score:75,level:'High Risk',premium:60},
+  'Coimbatore':   {score:55,level:'Medium Risk',premium:40},
+  'Madurai':      {score:50,level:'Medium Risk',premium:40},
+  'Salem':        {score:40,level:'Medium Risk',premium:40},
+  'Trichy':       {score:45,level:'Medium Risk',premium:40},
+  'Pollachi':     {score:35,level:'Low Risk',premium:20},
+  'Pune':         {score:121,level:'High Risk',premium:60},
+  'Mumbai City':  {score:101,level:'High Risk',premium:60},
+  'Delhi':        {score:65,level:'Medium Risk',premium:40},
+};
+const PLATFORM_MULT = {Zomato:1.1,Swiggy:1.1,Zepto:1.0,Blinkit:1.0,Amazon:0.9,Flipkart:0.9,Dunzo:1.05};
+const SEASON = () => { const m=new Date().getMonth(); if(m<2||m===11)return 0.8; if(m<5)return 1.2; if(m<9)return 1.5; return 0.9; };
+
+function calcPremium(district, earnings, platform) {
+  const rd = RISK_DATA[district] || {score:50};
+  const normRisk = Math.min(rd.score/130,1);
+  const rate = 0.02 + normRisk*0.03;
+  const pm = PLATFORM_MULT[platform]||1.0;
+  const raw = earnings * rate * pm * SEASON();
+  return Math.max(20, Math.round(raw/5)*5);
+}
+
+function calcPayout(earnings) { return Math.round(earnings/6); }
+
+// ── REGISTER WORKER ───────────────────────────────────────────────────────────
+function registerWorker() {
+  const name     = document.getElementById('reg-name').value.trim();
+  const phone    = document.getElementById('reg-phone').value.trim();
+  const platform = document.getElementById('reg-platform').value;
+  const vehicle  = document.getElementById('reg-vehicle').value;
+  const state    = document.getElementById('reg-state').value;
+  const district = document.getElementById('reg-district').value;
+  const earnings = parseInt(document.getElementById('reg-earnings').value)||0;
+
+  if(!name||!phone||!earnings) {
+    document.getElementById('reg-result').innerHTML = `<div class="alert alert-danger">⚠️ Please fill all fields.</div>`;
+    return;
+  }
+
+  const btn = document.getElementById('reg-btn');
+  btn.innerHTML = '<span class="spinner"></span>Analyzing risk...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    const wid     = Math.random().toString(36).substr(2,8).toUpperCase();
+    const rd      = RISK_DATA[district]||{score:50,level:'Medium Risk'};
+    const premium = calcPremium(district, earnings, platform);
+    const payout  = calcPayout(earnings);
+
+    const worker = { worker_id:wid, name, phone, platform, vehicle, state, district,
+      avg_weekly_earnings:earnings, risk_level:rd.level, risk_score:rd.score,
+      weekly_premium:premium, daily_payout:payout,
+      total_contributed:0, total_received:0, joined_date:new Date().toISOString(), claims:[] };
+
+    State.workers[wid] = worker;
+    State.currentWorker = worker;
+    State.pool.balance  += premium;
+    State.pool.totalIn  += premium;
+
+    // Show result
+    btn.innerHTML = '🛡️ Calculate My Premium & Join';
+    btn.disabled  = false;
+
+    const riskClass = rd.level==='High Risk'?'badge-high':rd.level==='Medium Risk'?'badge-med':'badge-low';
+    const fillPct   = Math.min((rd.score||50)/130*100,100);
+
+    document.getElementById('id-card-display').innerHTML = `
+      <div class="wid">${wid}</div>
+      <div class="wname">👤 ${name} &nbsp;|&nbsp; 🛵 ${platform}</div>
+      <div class="wprem">📍 ${district}, ${state} &nbsp;|&nbsp; 📅 Joined today</div>
+    `;
+    document.getElementById('prev-premium').textContent = '₹'+premium;
+    document.getElementById('prev-payout').textContent  = '₹'+payout;
+    document.getElementById('prev-risk').innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:13px;color:var(--text2)">Risk Score: ${rd.score||50}</span>
+        <span class="badge ${riskClass}">${rd.level}</span>
+      </div>
+      <div class="risk-bar"><div class="risk-fill ${rd.level==='High Risk'?'high':rd.level==='Medium Risk'?'medium':'low'}" style="width:${fillPct}%"></div></div>
+    `;
+    document.getElementById('premium-preview').style.display = '';
+    document.getElementById('reg-result').innerHTML = `
+      <div class="alert alert-success">✅ Welcome to GigShield! Your Worker ID: <b>${wid}</b><br>₹${premium}/week will be auto-deducted from your ${platform} earnings.</div>
+    `;
+
+    // Pre-fill dashboard
+    updateDashboard(worker);
+  }, 1200);
+}
+
+// ── WORKER DASHBOARD ──────────────────────────────────────────────────────────
+function loadWorkerDash() {
+  const id = document.getElementById('lookup-id').value.trim().toUpperCase();
+  const w  = State.workers[id];
+  if(!w) { document.getElementById('worker-overview').innerHTML=`<div class="alert alert-danger">❌ Worker ID not found.</div>`; return; }
+  State.currentWorker = w;
+  updateDashboard(w);
+}
+
+function updateDashboard(w) {
+  const riskClass = w.risk_level==='High Risk'?'badge-high':w.risk_level==='Medium Risk'?'badge-med':'badge-low';
+  document.getElementById('worker-overview').innerHTML = `
+    <div class="grid-2" style="margin-bottom:16px">
+      <div class="id-card">
+        <div class="wid">${w.worker_id}</div>
+        <div class="wname">👤 ${w.name} &nbsp;|&nbsp; 🛵 ${w.platform}</div>
+        <div class="wprem">📍 ${w.district}, ${w.state}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="metric orange"><div class="m-label">Weekly Premium</div><div class="m-value">₹${w.weekly_premium}</div><div class="m-sub">Auto-deducted</div></div>
+        <div class="metric green"><div class="m-label">Daily Payout on Disruption</div><div class="m-value">₹${w.daily_payout}</div></div>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="metric teal"><div class="m-label">Total Contributed</div><div class="m-value">₹${w.total_contributed}</div></div>
+      <div class="metric green"><div class="m-label">Total Received</div><div class="m-value">₹${w.total_received}</div></div>
+      <div class="metric"><div class="m-label">Claims Filed</div><div class="m-value">${w.claims.length}</div></div>
+    </div>
+    <div style="margin-top:16px;padding:14px;background:var(--success-light);border:1px solid #A5D6A7;border-radius:8px;font-size:13px;color:var(--success)">
+      ✅ Policy Active — <span class="badge ${riskClass}">${w.risk_level}</span> &nbsp;Risk Score: ${w.risk_score}
+    </div>
+  `;
+  // Update claims tab
+  renderClaims(w.claims);
+}
+
+function renderClaims(claims) {
+  const el = document.getElementById('claims-list');
+  if(!claims||claims.length===0) {
+    el.innerHTML = '<div class="alert alert-info">ℹ️ No claims yet. Disruption triggers will appear here.</div>';
+    return;
+  }
+  el.innerHTML = claims.map(c => `
+    <div class="claim-item">
+      <div>
+        <div class="claim-event">${c.disruption?.icon||'⚡'} ${c.disruption?.event_type||c.disruption?.type||'Disruption'}</div>
+        <div class="claim-meta">ID: ${c.claim_id} &nbsp;|&nbsp; ${new Date(c.timestamp).toLocaleDateString()} &nbsp;|&nbsp; <span class="badge badge-success">${c.status}</span></div>
+      </div>
+      <div class="claim-amount">+₹${c.payout_amount}</div>
+    </div>
+  `).join('');
+}
+
+// ── DISRUPTION CHECK ──────────────────────────────────────────────────────────
+const DISRUPTIONS = [
+  {type:'Heavy Rainfall',severity:'high',hours:6,desc:'Rainfall exceeding 80mm — deliveries impossible',icon:'🌧️'},
+  {type:'Extreme Heat',severity:'medium',hours:8,desc:'Temperature 43°C — unsafe for outdoor workers',icon:'🌡️'},
+  {type:'High Wind Speed',severity:'medium',hours:4,desc:'Wind 38 km/h — two-wheelers unsafe',icon:'💨'},
+  {type:'Flood Warning',severity:'high',hours:12,desc:'Official flood warning — roads submerged',icon:'🌊'},
+  {type:'Government Curfew',severity:'high',hours:10,desc:'Unplanned curfew restricting movement',icon:'🚫'},
+  {type:'Local Strike',severity:'medium',hours:5,desc:'Transport strike blocking delivery zones',icon:'✊'},
+];
+
+function checkDisruption() {
+  const district = document.getElementById('dis-district').value;
+  const el       = document.getElementById('disruption-result');
+  el.innerHTML   = '<div class="alert alert-info"><span class="spinner"></span>Checking weather APIs, IMD data, news feeds...</div>';
+  const rd       = RISK_DATA[district]||{score:50};
+  const prob     = rd.score/200;
+
+  setTimeout(() => {
+    if(Math.random() < prob) {
+      const ev = DISRUPTIONS[Math.floor(Math.random()*DISRUPTIONS.length)];
+      el.innerHTML = `
+        <div class="disruption-banner">
+          <div class="disruption-icon">${ev.icon}</div>
+          <div class="disruption-type">${ev.type} Detected!</div>
+          <div class="disruption-desc">${ev.desc}</div>
+          <div style="margin-top:12px;display:flex;gap:16px;font-size:13px;opacity:0.85">
+            <span>⏱️ Duration: ~${ev.hours}h</span>
+            <span>📊 Severity: ${ev.severity}</span>
+            <span>🎯 Confidence: ${(82+Math.random()*16).toFixed(0)}%</span>
+          </div>
+          <button class="btn-primary" style="margin-top:16px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4)" onclick="processAutoPayouts('${ev.type}','${ev.severity}',${ev.hours},'${district}')">⚡ Trigger Auto-Payout for All Workers in ${district}</button>
+        </div>
+      `;
+    } else {
+      el.innerHTML = `<div class="alert alert-success">✅ No disruption detected in ${district}. Weather is clear. Workers can earn normally.</div>`;
+    }
+  }, 1500);
+}
+
+function processAutoPayouts(type,severity,hours,district) {
+  const workers = Object.values(State.workers).filter(w=>w.district===district);
+  const sevMult = {low:0.25,medium:0.50,high:0.75}[severity]||0.5;
+  const hrsMult = Math.min(hours,10)/10;
+  let totalPaid = 0;
+
+  workers.forEach(w => {
+    const amt = Math.max(50, Math.round(w.daily_payout * sevMult * (0.5+hrsMult*0.5)));
+    const cid = Math.random().toString(36).substr(2,8).toUpperCase();
+    const claim = {
+      claim_id:cid, disruption:{event_type:type,severity,duration_hours:hours,icon:'⚡'},
+      payout_amount:amt, status:'auto_approved', timestamp:new Date().toISOString(), auto_triggered:true
+    };
+    w.claims.push(claim);
+    w.total_received += amt;
+    State.pool.balance  = Math.max(0, State.pool.balance-amt);
+    State.pool.totalOut += amt;
+    totalPaid += amt;
+    State.fraudStats.total++;
+  });
+
+  if(State.currentWorker && State.currentWorker.district===district) {
+    updateDashboard(State.currentWorker);
+  }
+
+  const el = document.getElementById('disruption-result');
+  el.innerHTML += `
+    <div class="alert alert-success" style="margin-top:12px">
+      ⚡ Auto-payouts processed! <b>${workers.length} workers</b> received ₹${totalPaid} total.<br>
+      UPI transfers initiated — workers will receive funds within 30 seconds.
+    </div>
+  `;
+}
+
+function triggerAutoPayouts() {
+  const district = document.getElementById('dis-district').value;
+  checkDisruption();
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────────
+function loadAdminData() {
+  const workers  = Object.values(State.workers);
+  const totalPrem = workers.reduce((s,w)=>s+w.total_contributed,0);
+  const totalPaid = workers.reduce((s,w)=>s+w.total_received,0);
+  const ratio     = totalPrem > 0 ? (totalPaid/totalPrem*100).toFixed(1) : 0;
+
+  document.getElementById('adm-workers').textContent = workers.length;
+  document.getElementById('adm-ratio').textContent   = ratio+'%';
+  document.getElementById('adm-premium').textContent = '₹'+totalPrem;
+  document.getElementById('adm-payout').textContent  = '₹'+totalPaid;
+  document.getElementById('fraud-total').textContent = State.fraudStats.total;
+  document.getElementById('fraud-flagged').textContent = State.fraudStats.flagged;
+}
+
+function simulateDisruption(type, district, state) {
+  const el  = document.getElementById('sim-result');
+  const ev  = DISRUPTIONS.find(d=>d.type===type)||DISRUPTIONS[0];
+  el.innerHTML = `<div class="alert alert-info"><span class="spinner"></span>Simulating ${type} in ${district}...</div>`;
+
+  setTimeout(() => {
+    // Add some demo workers if none
+    if(Object.keys(State.workers).length===0) {
+      ['Arjun K','Priya R','Murugan S'].forEach((n,i)=>{
+        const wid=Math.random().toString(36).substr(2,8).toUpperCase();
+        State.workers[wid]={
+          worker_id:wid,name:n,phone:'98765430'+i+i,platform:['Zomato','Swiggy','Zepto'][i],
+          district,state,avg_weekly_earnings:3000+i*500,risk_level:'High Risk',risk_score:75,
+          weekly_premium:60,daily_payout:500,total_contributed:240,total_received:0,
+          joined_date:new Date().toISOString(),claims:[]
+        };
+      });
+    }
+
+    processAutoPayouts(type,'high',8,district);
+    loadAdminData();
+    el.innerHTML = `
+      <div class="disruption-banner">
+        <div class="disruption-icon">${ev.icon}</div>
+        <div class="disruption-type">SIMULATION: ${type}</div>
+        <div class="disruption-desc">${district}, ${state} — Full automated pipeline executed</div>
+        <div style="margin-top:12px;font-size:13px;opacity:0.9;line-height:1.8">
+          ✅ Disruption detected via API<br>
+          ✅ Affected workers identified in zone<br>
+          ✅ Fraud checks passed (all workers)<br>
+          ✅ Payouts calculated & UPI transfers initiated<br>
+          ✅ Pool balance updated
+        </div>
+      </div>
+    `;
+  }, 2000);
+}
+
+// ── POOL UI ───────────────────────────────────────────────────────────────────
+function updatePoolUI() {
+  const pct = Math.max(0, Math.min(100, (State.pool.balance/State.pool.totalIn)*100));
+  document.getElementById('pool-pct').textContent  = Math.round(pct)+'%';
+  document.getElementById('pool-bal').textContent  = '₹'+State.pool.balance.toLocaleString();
+  document.getElementById('pool-in').textContent   = '₹'+State.pool.totalIn.toLocaleString();
+  document.getElementById('pool-out').textContent  = '₹'+State.pool.totalOut.toLocaleString();
+  const circumference = 2*Math.PI*58;
+  const offset        = circumference * (1 - pct/100);
+  document.getElementById('pool-circle').setAttribute('stroke-dasharray', circumference);
+  document.getElementById('pool-circle').setAttribute('stroke-dashoffset', offset);
+  document.getElementById('pool-display').textContent = State.pool.balance.toLocaleString();
+}
+
+setInterval(updatePoolUI, 2000);
+updatePoolUI();
+</script>
+</body>
+</html>
